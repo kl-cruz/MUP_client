@@ -21,3 +21,6 @@ QT       += core gui network
 
 HEADERS += \
     mupServerHandle.h
+
+OTHER_FILES += \
+    qml/MUP_qchartjs/main.qml

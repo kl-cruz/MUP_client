@@ -118,6 +118,7 @@ Screen {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        handle.iSerrorOnDisconnect=false;
                         handle.disconnectFromServer();
                         previousScreen.state = "visible"
                         screen.state = "after"
@@ -158,12 +159,10 @@ Screen {
 
             hoverEnabled: true
             onEntered: {
-                console.log("Mouse in ");
                 animateMenuOut.stop();
                 animateMenuIn.start();
             }
             onExited: {
-                console.log("Mouse out ");
                 animateMenuIn.stop();
                 animateMenuOut.start();
             }
@@ -196,27 +195,34 @@ Screen {
 
         ServerHandle{
             id: handle
+            property bool iSerrorOnDisconnect: true
+            property string ip
             onValueChanged: {
                 var now = new Date();
                 ChartsData.addData(now.toTimeString(),newValue*1.00);
-                console.log("newValue is ", newValue);
+                chart_line.repaint();
+                console.log("Odebrano wartość ", newValue);
+                hostInfo.text="Podłączony do hosta:"+ip+" o godzinie:"+now.toTimeString()+" ostatnia wartość:"+newValue
+                handle.sendValue('ok');
             }
             onDisconnected: {
+                if(iSerrorOnDisconnect){
                 error.visible=true;
                 errorText.text="Połączenie z serwerem zostało zerwane!"
                 app.enabled=false;
                 console.log("Error");
+                }
             }
 
         }
 
         Timer {
             id: samplesTimer
-                interval: 1000; running: false; repeat: true;
+                interval: 3000; running: false; repeat: true;
                 onTriggered: {
                     var now = new Date();
                     chart_line.requestPaint();
-                    handle.sendValue('5');
+                    handle.sendValue('0');
                     }
             }
 
@@ -227,8 +233,8 @@ Screen {
           id: chart_line;
           anchors.fill: parent
           chartAnimated: true;
-          chartAnimationEasing: Easing.InOutQuad;
-          chartAnimationDuration: 200;
+          chartAnimationEasing: Easing.InCubic;
+          chartAnimationDuration: 0;
           chartData: ChartsData.ChartLineData;
           chartType: Charts.ChartType.LINE;
         }
@@ -245,6 +251,7 @@ Screen {
             samplesTimer.running=true;
             var now = new Date();
             hostInfo.text="Podłączony do hosta:"+ip+" o godzinie:"+now.toTimeString()
+            handle.ip=ip;
         }else
         {
             error.visible=true;

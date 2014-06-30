@@ -1,64 +1,25 @@
 import QtQuick 2.0
 
-
-import "qchart.js/QChart.js"        as Charts
-import "dataModeler.js" as ChartsData
-
-import "qchart.js/."
-
-import mupServerHandle 1.0
-
-
-
+/*
+ * The main QML-file that is loaded first.
+ * Handles loading of the XML-data.
+ *
+ */
 Rectangle {
-    width: 500
-    height: 500
-    Text {
-        text: qsTr("Hello World")
-        anchors.centerIn: parent
-    }
-    MouseArea {
-        anchors.fill: parent
+    id: main
 
-        onDoubleClicked: ChartsData.clearData();
-    }
-    ServerHandle{
-        id: handle
-        onValueChanged: {
-            var now = new Date();
-            ChartsData.addData2(now.toTimeString(),newValue*1.00);//Math.random()*100);
-            console.log("newValue is ", newValue);
-        }
+    width: 1024
+    height: 600
 
+    // Background gradient
+    gradient: Gradient {
+        GradientStop { position: 0.0; color: "white" }
+        GradientStop { position: 1.0; color: "gray" }
     }
 
-    Timer {
-            interval: 1000; running: true; repeat: true;
-            onTriggered: {
-                var now = new Date();
-                //console.log(now.toTimeString())
-                //now.format("dd/M/yy h:mm:tt");
-                    //ChartsData.addData2(now.toTimeString(),Math.random()*100);
-                    //chart_line.requestPaint();
-                chart_line.requestPaint();
-                handle.sendValue('5');
-                }
-                //console.log(chart_line.chartData);
-        }
-
-
-    Chart {
-      id: chart_line;
-      anchors.fill: parent
-      chartAnimated: true;
-      chartAnimationEasing: Easing.InOutQuad;
-      chartAnimationDuration: 200;
-      chartData: ChartsData.ChartLineData;
-      chartType: Charts.ChartType.LINE;
+    StartScreen {
+        state: "visible"
     }
-
-
 }
-
 
 

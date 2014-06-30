@@ -1,9 +1,5 @@
 import QtQuick 2.0
 
-/*
- * Base Screen component with states and screen switch transition
- *
- */
 Item {
     id: screen
 
@@ -12,8 +8,6 @@ Item {
     width: main.width
     height: main.height
     x: width
-
-    //TopBar{ id: topbar }
 
     states: [
         State {
@@ -37,7 +31,6 @@ Item {
                 x: screen.width
             }
             onCompleted: {
-                // Screen goes off the visible area, we can destroy the object
                 screen.destroy()
             }
         }

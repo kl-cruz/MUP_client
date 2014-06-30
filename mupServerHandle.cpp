@@ -29,8 +29,8 @@ qreal dane;
 QDataStream in(client);
 in.setVersion(QDataStream::Qt_4_6);
 in>>dane;
-qDebug() << "value: "<< dane << " " << in;
-qDebug() << "dane:"<< dane;
+/*qDebug() << "value: "<< dane << " " << in;
+qDebug() << "dane:"<< dane;*/
 emit valueChanged(dane);
 }
 

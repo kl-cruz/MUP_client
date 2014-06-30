@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QtQuick2ApplicationViewer viewer;
     qmlRegisterType<mupServerHandle>("mupServerHandle", 1, 0, "ServerHandle");
-    viewer.setMainQmlFile(QStringLiteral("qml/MUP_qchartjs/main2.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qml/MUP_qchartjs/main.qml"));
 
     viewer.showExpanded();
 
